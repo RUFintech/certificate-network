@@ -1,0 +1,6 @@
+query selectCertificatesByHash {
+  description: "Select a certificate by hash"
+  statement:
+      SELECT org.university.certification.Certificate
+          WHERE (certificateHash == _$certificateHash)
+}

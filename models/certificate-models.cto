@@ -1,0 +1,47 @@
+
+/**
+ * Definition for RU certificates project.
+ */
+namespace org.university.certification
+
+asset Certificate identified by certificateHash {
+  o String certificateHash
+  o String studentInformationHash optional
+  o String certificateJsonHash optional
+  --> Verifier verifier
+  o String studentID
+  o Verification verified default="NOT_VERIFIED"
+}
+
+enum Verification {
+  o   VERIFIED
+  o   NOT_VERIFIED
+  o	  REJECTED
+}
+  
+abstract participant Member identified by memberId {
+  o String memberId
+}
+  
+participant Verifier extends Member {
+  o String School
+  o String Role
+  --> Verifier nextVerifier optional
+}
+
+participant Creator extends Member {
+  o String School
+  --> Verifier firstVerifier
+}
+
+transaction acceptCertificate {
+  --> Certificate certificate
+}
+  
+transaction createCertificate {
+  --> Creator creator
+  o String certificateHash
+  o String studentInformationHash optional
+  o String certificateJsonHash optional
+  o String studentID
+}

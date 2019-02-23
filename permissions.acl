@@ -1,0 +1,70 @@
+
+/**
+ * Access Control List for the auction network.
+ */
+
+rule Member {
+    description: "Allow the member read access"
+    participant: "org.university.certification.Member"
+    operation: READ
+    resource: "org.university.certification.**"
+    action: ALLOW
+}
+
+rule CreatorCanCreate {
+    description: "Allow the creators create access on verifiers"
+    participant: "org.university.certification.Creator"
+    operation: CREATE, READ, UPDATE
+    resource: "org.university.certification.Verifier"
+    action: ALLOW
+}
+
+rule CreatorCanCreateCreateCertificateTX {
+  description: "Allow creators to create createCertificate TX"
+  participant: "org.university.certification.Creator"
+  operation: CREATE, READ, UPDATE
+  resource: "org.university.certification.createCertificate"
+  action: ALLOW
+}
+
+rule CreatorCanCreateCreateCertificate {
+  description: "Allow creators to create createCertificate TX"
+  participant: "org.university.certification.Creator"
+  operation: CREATE, READ
+  resource: "org.university.certification.Certificate"
+  action: ALLOW
+}
+
+rule OnlyVerifiersCanVerify {
+    description: "Only allow correct verifiers to call AcceptCertification transaction"
+    participant(m): "org.university.certification.Verifier"
+    operation: READ, UPDATE
+    resource(v): "org.university.certification.Certificate"
+    transaction(tx): "org.university.certification.acceptCertificate"
+    condition: (v.verifier.getIdentifier() == m.getIdentifier())
+    action: ALLOW
+}
+
+rule SystemACL {
+    description:  "System ACL to permit all access"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
