@@ -4,3 +4,28 @@ query selectCertificatesByHash {
       SELECT org.university.certification.Certificate
           WHERE (certificateHash == _$certificateHash)
 }
+
+query selectAllParticipants {
+  description: "Selects all participants"
+  statement:
+    SELECT org.university.certification.Member
+}
+
+query selectAllVerifiers {
+  description: "Selects all verifiers"
+  statement:
+    SELECT org.university.certification.Verifier
+}
+
+query selectAllCertificates {
+  description: "Selects all certificates"
+  statement:
+    SELECT org.university.certification.Certificate
+}
+
+
+query selectAllCreators {
+  description: "Selects all creators"
+  statement:
+    SELECT org.university.certification.Creator
+}

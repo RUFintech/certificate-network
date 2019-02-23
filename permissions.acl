@@ -45,6 +45,14 @@ rule OnlyVerifiersCanVerify {
     action: ALLOW
 }
 
+rule VerifiersCanCreateAcceptCertificate {
+  description: "Verifiers can create accept certificates"
+  participant: "org.university.certification.Verifier"
+  operation: CREATE, READ
+  resource: "org.university.certification.acceptCertificate"
+  action: ALLOW
+}
+
 rule SystemACL {
     description:  "System ACL to permit all access"
     participant: "org.hyperledger.composer.system.Participant"

@@ -1,18 +1,18 @@
-'use strict';
+//'use strict';
 
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
 
-const cardName = 'PDFCreator@certificate-network';
-const namespace = "org.university.certification";
 
 class Certificates {
 
-  constructor() {
+  constructor(cardName, namespace) {
     this.certNetworkConnection = new BusinessNetworkConnection();
+    this.cardName = cardName;//'PDFCreator@certificate-network';
+    this.namespace = namespace;//'org.university.certification';
   }
 
   async setupNetworkDefninition() {
-    await this.certNetworkConnection.connect(cardName).then(result => {
+    await this.certNetworkConnection.connect(this.cardName).then(result => {
       console.log("CONNECTED TO BLOCKCHAIN");
       this.certNetworkDefinition = result;
     }).catch(err => {
@@ -38,15 +38,15 @@ class Certificates {
     let factory = this.certNetworkConnection.getBusinessNetwork().getFactory();
 
     //create transaction
-    const createCertificate = factory.newTransaction(namespace, 'createCertificate');
-    createCertificate.creator = factory.newRelationship(namespace, 'Creator', this.id);
+    const createCertificate = factory.newTransaction(this.namespace, 'createCertificate');
+    createCertificate.creator = factory.newRelationship(this.namespace, 'Creator', this.id);
     createCertificate.certificateHash = certificateHash;
     createCertificate.studentID = studentID;
     //submit transaction
     await this.certNetworkConnection.submitTransaction(createCertificate).then((out) => {
       return true;
     }).catch((err) => {
-      console.log("Error submitting create certificate transaction", err);
+      console.log('Error submitting create certificate transaction', err);
     });
   }
 
@@ -54,40 +54,28 @@ class Certificates {
     let result = await this.certNetworkConnection.query('selectCertificatesByHash', {
       certificateHash: certificateHash
     }).then((res) => {
-      console.log("QUERY RETURNED THIS ", res);
+      console.log('QUERY RETURNED THIS ', res);
       return res;
     }).catch((err) => {
-      console.log("ERROR WHILE QUERYING", err);
+      console.log('ERROR WHILE QUERYING', err);
     });
     return result;
   }
-}
 
-function printCert(cert) {
-  console.log(cert.certificateHash);
-  console.log(cert.studentID);
-  console.log(cert.verified);
-}
-
-let FILEHASH = "AHASHOFFILE8";
-let STUDENTID = "42"
-
-let tester = new Certificates();
-tester.init().then(() => {
-
-  tester.createCertificateTransaction(FILEHASH, STUDENTID).then((r) => {
-
-    tester.queryStatusOfCertificate(FILEHASH).then((res) => {
-      res.forEach(cert => {
-        printCert(cert);
-      });
-
-    }).catch((error) => {
-      console.log("ERROR DURING QUERY", error);
+  async acceptCertificate(certificateHash) {
+    //get the factory for the business network.
+    let factory = this.certNetworkConnection.getBusinessNetwork().getFactory();
+    //create transaction
+    const acceptCertificate = factory.newTransaction(this.namespace, 'acceptCertificate');
+    acceptCertificate.certificate = factory.newRelationship(this.namespace, 'Certificate', certificateHash);
+    //submit transaction
+    await this.certNetworkConnection.submitTransaction(acceptCertificate).then((out) => {
+      return true;
+    }).catch((err) => {
+      console.log('Error submitting create certificate transaction', err);
     });
 
-  });
-}).catch((err) => {
-  console.log("something came up when calling createCert ", err);
-});
+  }
+}
 
+module.exports = Certificates;
