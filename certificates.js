@@ -54,7 +54,33 @@ class Certificates {
     let result = await this.certNetworkConnection.query('selectCertificatesByHash', {
       certificateHash: certificateHash
     }).then((res) => {
-      console.log('QUERY RETURNED THIS ', res);
+      return res;
+    }).catch((err) => {
+      console.log('ERROR WHILE QUERYING', err);
+    });
+    return result;
+  }
+
+  async queryAllCertificates() {
+    let result = await this.certNetworkConnection.query('selectAllCertificates').then((res) => {
+      return res;
+    }).catch((err) => {
+      console.log('ERROR WHILE QUERYING', err);
+    });
+    return result;
+  }
+
+  async queryAllCreators() {
+    let result = await this.certNetworkConnection.query('selectAllCreators').then((res) => {
+      return res;
+    }).catch((err) => {
+      console.log('ERROR WHILE QUERYING', err);
+    });
+    return result;
+  }
+
+  async queryAllVerifiers() {
+    let result = await this.certNetworkConnection.query('selectAllVerifiers').then((res) => {
       return res;
     }).catch((err) => {
       console.log('ERROR WHILE QUERYING', err);
