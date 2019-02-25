@@ -1,6 +1,6 @@
 const Certificates = require('./certificates');
 
-const cardName = 'department@certificate-network';
+const cardName = 'dean@certificate-network';
 const namespace = "org.university.certification";
 
 function printCert(cert) {
@@ -8,7 +8,7 @@ function printCert(cert) {
   console.log("Student ID: " + cert.studentID + ", hash: " + cert.certificateHash + ", status: " + cert.verified);
 }
 
-console.log("Accepting certificate as department");
+console.log("Accepting certificate as dean");
 let FILEHASH = "AHASHOFFILE10";
 let tester = new Certificates(cardName, namespace);
 tester.init().then(() => {

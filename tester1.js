@@ -4,9 +4,8 @@ const cardName = 'PDFCreator@certificate-network';
 const namespace = "org.university.certification";
 
 function printCert(cert) {
-  console.log(cert.certificateHash);
-  console.log(cert.studentID);
-  console.log(cert.verified);
+  console.log('\n');
+  console.log("Student ID: " + cert.studentID + ", hash: " + cert.certificateHash + ", status: " + cert.verified);
 }
 
 let FILEHASH = "AHASHOFFILE10";
