@@ -78,5 +78,3 @@ composer participant add -c admin@certificate-network -d '
 composer card delete --card PDFCreator@certificate-network
 composer identity issue -c admin@certificate-network -f ./cards/PDFCreator@certificate-network.card -u PDFCreator -a "resource:org.university.certification.Creator#4"
 composer card import -f ./cards/PDFCreator@certificate-network.card
-
-node tester1.js
