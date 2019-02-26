@@ -5,7 +5,7 @@ const namespace = "org.university.certification";
 
 function printCert(cert) {
   console.log('\n');
-  console.log("Student ID: " + cert.studentID + ", hash: " + cert.certificateHash + ", status: " + cert.verified);
+  console.log("Student ID: " + cert.studentID + ", hash: " + cert.certificateHash + ", status: " + cert.verified + ", verifier: " + cert.verifier);
 }
 
 console.log("Accepting certificate as dean");

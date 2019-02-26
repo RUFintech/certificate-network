@@ -1,11 +1,11 @@
 const Certificates = require('../certificates');
 
-const cardName = 'id1@certificate-network';
+const cardName = 'admin@certificate-network';
 const namespace = "org.university.certification";
 
 function printCert(cert) {
   console.log('\n');
-  console.log("Student ID: " + cert.studentID + ", hash: " + cert.certificateHash + ", status: " + cert.verified);
+  console.log("Student ID: " + cert.studentID + ", hash: " + cert.certificateHash + ", status: " + cert.verified + ", verifier: " + cert.verifier);
 }
 
 

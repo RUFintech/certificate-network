@@ -1,6 +1,6 @@
 const Certificates = require('../certificates');
 
-const cardName = 'id1@certificate-network';
+const cardName = 'admin@certificate-network';
 const namespace = "org.university.certification";
 
 function printCreator(creator) {
