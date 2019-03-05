@@ -88,6 +88,46 @@ class Certificates {
     return result;
   }
 
+  async queryAssetTransactions(certificateHash) {
+    let result = await this.certNetworkConnection.query('selectCertificatesByHash', {
+      certificateHash: certificateHash
+    }).then((res) => {
+      console.log(res);
+      return res;
+    }).catch((err) => {
+      console.log('ERROR WHILE QUERYING', err);
+    });
+    return result;
+  }
+
+  async historyOfCertificate (diplomaHash) {
+    const id = diplomaHash;
+    const test = this.certNetworkDefinition.getNativeAPI();
+    const api = this.certNetworkDefinition.getNativeAPI().createCompositeKey('org.university.certification', [id]);
+    const nativeKey = this.certNetworkConnection.getNativeAPI().createCompositeKey('org.university.certification', [id]);
+    const iterator = await getNativeAPI().getHistoryForKey(nativeKey);
+    let results = [];
+    let res = {done : false};
+    while (!res.done) {
+        res = await iterator.next();
+
+        if (res && res.value && res.value.value) {
+            let val = res.value.value.toString('utf8');
+            if (val.length > 0) {
+                results.push(JSON.parse(val));
+            }
+        }
+        if (res && res.done) {
+            try {
+                iterator.close();
+            }
+            catch (err) {
+            }
+        }
+    }
+  }
+
+
   async acceptCertificate(certificateHash) {
     //get the factory for the business network.
     let factory = this.certNetworkConnection.getBusinessNetwork().getFactory();

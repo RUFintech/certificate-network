@@ -1,4 +1,4 @@
-const Certificates = require('./certificates');
+const Certificates = require('../certificates');
 
 const cardName = 'dean@certificate-network';
 const namespace = "org.university.certification";

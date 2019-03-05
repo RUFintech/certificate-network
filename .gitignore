@@ -1,3 +1,7 @@
 node_modules
+cards
 certificate-network@*
 *.card
+*.pdf
+.DS_Store
+*tempCodeRunnerFile*
