@@ -16,14 +16,29 @@ function printVerifier(verifier) {
   }
 }
 
-
+certHash = 'AHASHOFFILE17';
 let tester = new Certificates(cardName, namespace);
 tester.init().then(() => {
-    tester.queryAssetTransactions('AHASHOFFILE10').then((res) => {
-      res.forEach(verifier => {
-        printVerifier(verifier);
-      });
-
+    tester.queryStatusOfCertificate(certHash).then((status) => {
+      if(!status || status.length == 0){
+        console.log("Certificate does not exist on the blockchcain. ");
+        return;
+      }
+      verified = status[0].verified;
+      if(verified == "VERIFIED") {
+        console.log("Certificate is verified");
+        tester.queryAssetTransactions(certHash).then((res) => {
+          res.forEach(function(tx){
+            console.log("Accepted by " + tx.role + ", time accepted " + tx.timestamp);
+          });
+        }).catch((error) => {
+          console.log("ERROR DURING QUERY", error);
+        });
+      }
+      else
+      {
+        console.log("Certificate has not been verified");
+      }
     }).catch((error) => {
       console.log("ERROR DURING QUERY", error);
     });

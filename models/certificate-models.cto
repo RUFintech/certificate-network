@@ -36,6 +36,7 @@ participant Creator extends Member {
 
 transaction acceptCertificate {
   --> Certificate certificate
+  o String role
 }
   
 transaction createCertificate {

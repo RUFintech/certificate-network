@@ -17,6 +17,13 @@ query selectAllVerifiers {
     SELECT org.university.certification.Verifier
 }
 
+query selectVerifier{
+  description: "Selects all verifiers"
+  statement:
+    SELECT org.university.certification.Verifier
+        WHERE (memberId == _$Id)
+}
+
 query selectAllCertificates {
   description: "Selects all certificates"
   statement:
@@ -34,6 +41,7 @@ query selectAssetTransactions{
   description: "Select Transactions of an assets"
   statement:
     SELECT org.university.certification.acceptCertificate
+      WHERE (certificate.certificateHash == _$certificateHash)
 }
 
 query selectcreateCertificate{

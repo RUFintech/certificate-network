@@ -88,11 +88,10 @@ class Certificates {
     return result;
   }
 
-  async queryAssetTransactions(certificateHash) {
-    let result = await this.certNetworkConnection.query('selectCertificatesByHash', {
-      certificateHash: certificateHash
+  async queryVerifier(Id) {
+    let result = await this.certNetworkConnection.query('selectVerifier',  {
+      Id: Id
     }).then((res) => {
-      console.log(res);
       return res;
     }).catch((err) => {
       console.log('ERROR WHILE QUERYING', err);
@@ -100,47 +99,46 @@ class Certificates {
     return result;
   }
 
-  async historyOfCertificate (diplomaHash) {
-    const id = diplomaHash;
-    const test = this.certNetworkDefinition.getNativeAPI();
-    const api = this.certNetworkDefinition.getNativeAPI().createCompositeKey('org.university.certification', [id]);
-    const nativeKey = this.certNetworkConnection.getNativeAPI().createCompositeKey('org.university.certification', [id]);
-    const iterator = await getNativeAPI().getHistoryForKey(nativeKey);
-    let results = [];
-    let res = {done : false};
-    while (!res.done) {
-        res = await iterator.next();
-
-        if (res && res.value && res.value.value) {
-            let val = res.value.value.toString('utf8');
-            if (val.length > 0) {
-                results.push(JSON.parse(val));
-            }
-        }
-        if (res && res.done) {
-            try {
-                iterator.close();
-            }
-            catch (err) {
-            }
-        }
-    }
+  async queryAssetTransactions(certificateHash) {
+    let result = await this.certNetworkConnection.query('selectAssetTransactions').then((res) => {
+      return res;
+    }).catch((err) => {
+      console.log('ERROR WHILE QUERYING', err);
+    });
+    return result;
   }
 
 
   async acceptCertificate(certificateHash) {
-    //get the factory for the business network.
-    let factory = this.certNetworkConnection.getBusinessNetwork().getFactory();
-    //create transaction
-    const acceptCertificate = factory.newTransaction(this.namespace, 'acceptCertificate');
-    acceptCertificate.certificate = factory.newRelationship(this.namespace, 'Certificate', certificateHash);
-    //submit transaction
-    await this.certNetworkConnection.submitTransaction(acceptCertificate).then((out) => {
-      return true;
-    }).catch((err) => {
-      console.log('Error submitting create certificate transaction', err);
-    });
+    //get the certificate
+    this.queryStatusOfCertificate(certificateHash).then((res) => {
+      res.forEach(cert => {
+        let verifierId = (cert.verifier + "").split('#');
+        verifierId = verifierId[1].substr(0, (verifierId[1].length - 1));
+        //get the verifier
+        this.queryVerifier(verifierId).then((res2) => {
+          //get the role of the one accepting
+          let role = res2[0].Role;
+          //get the factory for the business network.
+          let factory = this.certNetworkConnection.getBusinessNetwork().getFactory();
+          //create transaction
+          const acceptCertificate = factory.newTransaction(this.namespace, 'acceptCertificate');
+          acceptCertificate.certificate = factory.newRelationship(this.namespace, 'Certificate', certificateHash);
+          acceptCertificate.role = role;
+          //submit transaction
+          this.certNetworkConnection.submitTransaction(acceptCertificate).then((out) => {
+            return true;
+          }).catch((err) => {
+            console.log('Error submitting create certificate transaction', err);
+          });
+        }).catch((err) => {
+          console.log('Error submitting create certificate transaction', err);
+        });
+      })
 
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 }
 

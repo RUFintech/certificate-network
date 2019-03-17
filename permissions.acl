@@ -41,7 +41,7 @@ rule OnlyVerifiersCanVerify {
     operation: READ, UPDATE
     resource(v): "org.university.certification.Certificate"
     transaction(tx): "org.university.certification.acceptCertificate"
-    condition: ((v.verifier.getIdentifier() == m.getIdentifier()) AND (tx.Role == m.Role))
+    condition: ((v.verifier.getIdentifier() == m.getIdentifier()) && (tx.role == m.Role))
     action: ALLOW
 }
 
