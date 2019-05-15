@@ -100,7 +100,9 @@ class Certificates {
   }
 
   async queryAssetTransactions(certificateHash) {
-    let result = await this.certNetworkConnection.query('selectAssetTransactions').then((res) => {
+    let result = await this.certNetworkConnection.query('selectAssetTransactions',  {
+      certificateHash: certificateHash
+    }).then((res) => {
       return res;
     }).catch((err) => {
       console.log('ERROR WHILE QUERYING', err);

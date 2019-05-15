@@ -34,6 +34,10 @@ participant Creator extends Member {
   --> Verifier firstVerifier
 }
 
+participant Observer extends Member {
+  o String School
+}
+
 transaction acceptCertificate {
   --> Certificate certificate
   o String role
