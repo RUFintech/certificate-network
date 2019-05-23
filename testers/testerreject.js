@@ -1,6 +1,6 @@
 const Certificates = require('../certificates');
 
-const cardName = 'president@certificate-network';
+const cardName = 'dean@certificate-network';
 const namespace = "org.university.certification";
 
 function printCert(cert) {
@@ -8,14 +8,12 @@ function printCert(cert) {
   console.log("Student ID: " + cert.studentID + ", hash: " + cert.certificateHash + ", status: " + cert.verified + ", verifier: " + cert.verifier);
 }
 
-console.log("Accepting certificate as president");
-
-let FILEHASH = "AHASHOFFILE18";
-
+console.log("Rejecting certificate as department");
+let FILEHASH = "AHASHOFFILE17";
 let tester = new Certificates(cardName, namespace);
 tester.init().then(() => {
 
-  tester.acceptCertificate(FILEHASH).then((r) => {
+  tester.rejectCertificate(FILEHASH).then((r) => {
 
     tester.queryStatusOfCertificate(FILEHASH).then((res) => {
       res.forEach(cert => {
@@ -30,3 +28,14 @@ tester.init().then(() => {
 }).catch((err) => {
   console.log("something came up when calling accept cert ", err);
 });
+
+// tester.init().then(() => {
+
+//   tester.historyOfCertificate(FILEHASH).then((r) => {
+
+//   }).catch((err) => {
+//     console.log(err);
+//   });
+// }).catch((err) => {
+//   console.log("something came up when calling accept cert ", err);
+// });

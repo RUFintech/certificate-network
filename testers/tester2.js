@@ -9,7 +9,7 @@ function printCert(cert) {
 }
 
 console.log("Accepting certificate as department");
-let FILEHASH = "AHASHOFFILE17";
+let FILEHASH = "AHASHOFFILE18";
 let tester = new Certificates(cardName, namespace);
 tester.init().then(() => {
 

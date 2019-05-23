@@ -20,7 +20,12 @@
     "type": "git",
     "url": "https://github.com/hyperledger/composer-sample-networks.git"
   },
-  "keywords": ["certificates", "transparency", "composer", "composer-network"],
+  "keywords": [
+    "certificates",
+    "transparency",
+    "composer",
+    "composer-network"
+  ],
   "author": "Hyperledger Composer",
   "license": "Apache-2.0",
   "devDependencies": {
@@ -42,9 +47,17 @@
     "folder": ".",
     "license": "LICENSE.txt",
     "exact_paths_method": "EXCLUDE",
-    "exact_paths": ["composer-logs", "dist", "node_modules", "out", ".git"],
+    "exact_paths": [
+      "composer-logs",
+      "dist",
+      "node_modules",
+      "out",
+      ".git"
+    ],
     "file_type_method": "EXCLUDE",
-    "file_types": [".yml"],
+    "file_types": [
+      ".yml"
+    ],
     "insert_license": false,
     "license_formats": {
       "js|cto|acl": {

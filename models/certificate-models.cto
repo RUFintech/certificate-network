@@ -42,6 +42,11 @@ transaction acceptCertificate {
   --> Certificate certificate
   o String role
 }
+
+transaction rejectCertificate {
+  --> Certificate certificate
+  o String role
+}
   
 transaction createCertificate {
   --> Creator creator

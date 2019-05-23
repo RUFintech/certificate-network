@@ -131,10 +131,10 @@ class Certificates {
           this.certNetworkConnection.submitTransaction(acceptCertificate).then((out) => {
             return true;
           }).catch((err) => {
-            console.log('Error submitting create certificate transaction', err);
+            console.log('Error submitting accept certificate transaction', err);
           });
         }).catch((err) => {
-          console.log('Error submitting create certificate transaction', err);
+          console.log('Error submitting accept certificate transaction', err);
         });
       })
 
@@ -142,6 +142,39 @@ class Certificates {
       console.log(error);
     });
   }
+
+  async rejectCertificate(certificateHash) {
+    //get the certificate
+    this.queryStatusOfCertificate(certificateHash).then((res) => {
+      res.forEach(cert => {
+        let verifierId = (cert.verifier + "").split('#');
+        verifierId = verifierId[1].substr(0, (verifierId[1].length - 1));
+        //get the verifier
+        this.queryVerifier(verifierId).then((res2) => {
+          //get the role of the one accepting
+          let role = res2[0].Role;
+          //get the factory for the business network.
+          let factory = this.certNetworkConnection.getBusinessNetwork().getFactory();
+          //create transaction
+          const rejectCertificate = factory.newTransaction(this.namespace, 'rejectCertificate');
+          rejectCertificate.certificate = factory.newRelationship(this.namespace, 'Certificate', certificateHash);
+          rejectCertificate.role = role;
+          //submit transaction
+          this.certNetworkConnection.submitTransaction(rejectCertificate).then((out) => {
+            return true;
+          }).catch((err) => {
+            console.log('Error submitting reject certificate transaction', err);
+          });
+        }).catch((err) => {
+          console.log('Error submitting reject certificate transaction.', err);
+        });
+      })
+
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
 }
 
 module.exports = Certificates;

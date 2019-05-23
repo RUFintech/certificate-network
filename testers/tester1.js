@@ -8,7 +8,7 @@ function printCert(cert) {
   console.log("Student ID: " + cert.studentID + ", hash: " + cert.certificateHash + ", status: " + cert.verified + ", verifier: " + cert.verifier);
 }
 
-let FILEHASH = "AHASHOFFILE17";
+let FILEHASH = "AHASHOFFILE18";
 let STUDENTID = "42"
 
 let tester = new Certificates(cardName, namespace);

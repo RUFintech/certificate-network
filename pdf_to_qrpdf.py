@@ -9,6 +9,8 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
 import psycopg2
 import projectConfig as cfg
+import requests 
+
 
 POINT = 1
 INCH = 72
@@ -21,6 +23,7 @@ def connect_to_psql():
     connect_str = "dbname='{}' user='{}' host='{}' password='{}'".format(
                               cfg.postgresql['db'], cfg.postgresql['user'],
                               cfg.postgresql['host'], cfg.postgresql['passwd'])
+    print(connect_str)
     PSQL_CONN = psycopg2.connect(connect_str)
   except Exception as e:
     print(e)
@@ -133,6 +136,25 @@ def generate_qr_coded_pdf(file_path, student_id):
     if(PSQL_CONN):
       cursor.close()
       PSQL_CONN.close()
+
+  URL = "http://localhost:3000/api/org.university.certification.createCertificate"
+  
+  transaction = "org.university.certification.createCertificate"
+  creator = "resource:org.university.certification.Creator#4"
+    
+  # defining a params dict for the parameters to be sent to the API 
+  data = {
+    "$class": transaction,
+    "creator": creator,
+    "certificateHash": original_digest,
+    "studentID": student_id
+    }
+    
+  # sending get request and saving the response as response object 
+  r = requests.post(url = URL, data = data) 
+    
+  # extracting data in json format 
+  data = r.json() 
 
 
 
