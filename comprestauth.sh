@@ -13,6 +13,8 @@ export COMPOSER_NAMESPACES=never
 #3. Set up the REST server Authhentcation    true | false
 export COMPOSER_AUTHENTICATION=true
 
+export COMPOSER_ENROLLMENT_SECRET=adminpw 
+
 #4. Set up the Passport strategy provider
 export COMPOSER_PROVIDERS='{
   "github": {

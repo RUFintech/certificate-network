@@ -17,10 +17,10 @@ verifierlist = []
 for i in range(verifernumber):
     verifiername = input("Name of verifier {}: ".format(i + 1))
     verifierrole = input("Role of verifier {}: ".format(i + 1))
-    verifierauthidentity = input("Github account of verifier {}: ".format(i + 1))
+    verifierauthidentity = input("Github username(not email) of verifier {}: ".format(i + 1))
     verifierinfo = verifierInfo(verifiername, verifierrole, verifierauthidentity)
     verifierlist.append(verifierinfo)
-
+creatorauth = input("Github username(not email) of Creator? ")
 print("Creating 1 Creator, 1 PDFStore, 1 Observer and {} Verifier/s".format(verifernumber))
 print("Verifier information: ")
 for i in range(len(verifierlist)):
@@ -63,6 +63,9 @@ for i in range(len(verifierlist)):
     cardpath = currpath + "/cards/" + cardname + ".card"
     mydict = {"card":cardname, "authID":verifierlist[i].authidentity, "cardpath": cardpath}
     mycol.insert_one(mydict)
-
+cardname = "PDFCreator@certificate-network"
+cardpath = currpath + "/cards/" + cardname + ".card"
+mydict = {"card":cardname, "authID":creatorauth, "cardpath": cardpath}
+mycol.insert_one(mydict)
 for x in mycol.find():
   print(x)

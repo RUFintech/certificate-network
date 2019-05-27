@@ -49,3 +49,10 @@ query selectcreateCertificate{
   statement:
     SELECT org.university.certification.createCertificate
 }
+
+query selectParticipantsCertificate{
+  description: "Select Certificates that belong to participant"
+  statement:
+    SELECT org.university.certification.Certificate
+      WHERE (verifier == _$verifier)
+}

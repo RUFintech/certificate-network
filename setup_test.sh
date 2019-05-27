@@ -6,9 +6,9 @@
 
 ~/fabric-dev-servers/startFabric.sh
 
-composer network install -a certificate-network@0.1.26.bna -c PeerAdmin@hlfv1
+composer network install -a certificate-network@0.1.28.bna -c PeerAdmin@hlfv1
 
-composer network start --networkName certificate-network --networkVersion 0.1.26 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1
+composer network start --networkName certificate-network --networkVersion 0.1.28 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1
 
 rm cards/admin@certificate-network.card
 composer card delete --card admin@certificate-network
@@ -52,7 +52,7 @@ composer participant add -c admin@certificate-network -d '
 
 composer card delete --card dean@certificate-network
 composer identity issue -c admin@certificate-network -f ./cards/dean@certificate-network.card -u dean -a "resource:org.university.certification.Verifier#2"
-composer card import -f ./cards/dean@certificate-network.card
+composer card import -f ./cards/sudodean@certificate-network.card
 
 composer participant add -c admin@certificate-network -d '
 {
