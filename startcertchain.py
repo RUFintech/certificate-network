@@ -46,7 +46,7 @@ if(confirm == 'Y' or confirm == 'y'):
         print(shellstring)
         shellscript1 = subprocess.Popen(shellstring, shell=True, stdout=subprocess.PIPE)
         shellscript1.wait()
-        shellstring = "composer card delete --card department@certificate-network"
+        shellstring = "composer card delete --card {role}@certificate-network".format(role = verifierlist[i].role)
         shellscript2 = subprocess.Popen(shellstring, shell=True, stdout=subprocess.PIPE)
         shellscript2.wait()
         shellstring = """composer identity issue -c admin@certificate-network -f ./cards/{role}@certificate-network.card -u {role} -a "resource:org.university.certification.Verifier#{verifier}" """.format(role = verifierlist[i].role, verifier = str(i + 3))
@@ -61,11 +61,11 @@ currpath = os.path.dirname(os.path.realpath(__file__))
 for i in range(len(verifierlist)):
     cardname = verifierlist[i].role + "@certificate-network"
     cardpath = currpath + "/cards/" + cardname + ".card"
-    mydict = {"card":cardname, "authID":verifierlist[i].authidentity, "cardpath": cardpath}
+    mydict = {"card":cardname, "authID":verifierlist[i].authidentity, "cardpath": cardpath, "role": verifierlist[i].role}
     mycol.insert_one(mydict)
 cardname = "PDFCreator@certificate-network"
 cardpath = currpath + "/cards/" + cardname + ".card"
-mydict = {"card":cardname, "authID":creatorauth, "cardpath": cardpath}
+mydict = {"card":cardname, "authID":creatorauth, "cardpath": cardpath, "role" : "creator"}
 mycol.insert_one(mydict)
 for x in mycol.find():
   print(x)

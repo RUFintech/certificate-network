@@ -1,10 +1,10 @@
 
 CREATE TABLE certificate (
   id SERIAL NOT NULL PRIMARY KEY,
-  pdfhash VARCHAR(256) NOT NULL,
+  pdfhash VARCHAR(256) NOT NULL UNIQUE,
   pdf TEXT NOT NULL,
   pdfwithqrcode TEXT NOT NULL,
-  studentid INTEGER UNIQUE,
+  studentid INTEGER,
   FOREIGN KEY (studentid) References Students(studentid)
 );
 
@@ -13,6 +13,6 @@ CREATE TABLE students (
     studentid SERIAL NOT NULL PRIMARY KEY,
     firstname TEXT,
     lastname TEXT,
-    ssn TEXT,
+    ssn TEXT UNIQUE,
     dateofbirth DATE
 );
