@@ -11,6 +11,12 @@ import psycopg2
 import projectConfig as cfg
 import requests 
 
+# symmetric key encryption for certhash url params
+from Crypto.Cipher import AES
+import binascii
+
+aes = AES.new(cfg.encryption['key'])
+
 
 POINT = 1
 INCH = 72
@@ -56,7 +62,18 @@ def generate_qr_coded_pdf(file_path, student_id):
     generate the QR code and save it as an image to a io.BytesIO object
   """
 
-  qr_string = 'https://www.ru.certchain.is/?certhash={}&studentid={}'.format(original_digest,student_id)
+  to_encrypt = "{"+"certhash={},studentid={}".format(original_digest, student_id)+"}"
+  print("pre ",to_encrypt, len(to_encrypt))
+  to_encrypt += " "*(16-(len(to_encrypt)%16))
+  print("post ",to_encrypt, len(to_encrypt))
+
+  data = aes.encrypt(to_encrypt)
+
+  cryptstring = binascii.hexlify(bytearray(data))
+  cryptstring = str(cryptstring)[2:]
+  cryptstring = str(cryptstring)[:-1]
+
+  qr_string = 'fintech01.ru.is/verify?certcrypt={}'.format(cryptstring)
   qr.add_data(json.dumps(qr_string))
   qr.make(fit=True)
   img = qr.make_image(fill_color="black", back_color="white")
