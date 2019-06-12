@@ -62,10 +62,8 @@ def generate_qr_coded_pdf(file_path, student_id):
     generate the QR code and save it as an image to a io.BytesIO object
   """
 
-  to_encrypt = "{"+"certhash={},studentid={}".format(original_digest, student_id)+"}"
-  print("pre ",to_encrypt, len(to_encrypt))
-  to_encrypt += " "*(16-(len(to_encrypt)%16))
-  print("post ",to_encrypt, len(to_encrypt))
+  to_encrypt = "{"+"\"certhash\":\"{}\"".format(original_digest)+"}"
+  to_encrypt += " "*(16-(len(to_encrypt)%16)) # pad it with spaces so it's length is divisible by 16
 
   data = aes.encrypt(to_encrypt)
 
