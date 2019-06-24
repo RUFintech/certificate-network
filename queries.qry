@@ -43,6 +43,14 @@ query selectAssetTransactions{
     SELECT org.university.certification.acceptCertificate
       WHERE (certificate == _$certificateHash)
 }
+}
+
+query selectAssetCreatedTransactions{
+  description: "Select Transactions of an assets"
+  statement:
+    SELECT org.university.certification.createCertificate
+      WHERE (certificate == _$certificateHash)
+}
 
 query selectcreateCertificate{
   description: "Select Transactions of an assets"
