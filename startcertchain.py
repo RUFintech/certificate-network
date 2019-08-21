@@ -31,6 +31,23 @@ confirm = input()
 if(confirm == 'Y' or confirm == 'y'):
     shellscript = subprocess.Popen(["./standard_setup.sh"], stdin=subprocess.PIPE)
     shellscript.wait()
+    if(len(verifierlist) == 0):
+        firstverifier = """"firstVerifier": "resource:org.university.certification.Verifier#0","""
+    else:
+        firstverifier = """"firstVerifier": "resource:org.university.certification.Verifier#3","""
+    shellstring = """composer participant add -c admin@certificate-network -d '
+                {{
+                    "$class": "org.university.certification.Creator",
+                    "School": "Reykjavik University",
+                    {verifier}
+                    "memberId": "1"
+                }}'
+
+                composer card delete --card PDFCreator@certificate-network
+                composer identity issue -c admin@certificate-network -f ./cards/PDFCreator@certificate-network.card -u PDFCreator -a "resource:org.university.certification.Creator#1"
+                """.format(verifier = firstverifier)
+    shellscript1 = subprocess.Popen(shellstring, shell=True, stdout=subprocess.PIPE)
+    shellscript1.wait()
     for i in range(len(verifierlist)):
         thenextverifier = str(0)
         if(i != len(verifierlist) - 1):
@@ -54,9 +71,10 @@ if(confirm == 'Y' or confirm == 'y'):
         shellscript3.wait()
 
 myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+myclient.drop_database('test')
+myclient.drop_database('certauth')
 mydb = myclient["certauth"]
 mycol = mydb["gitcards"]
-mycol.drop()
 currpath = os.path.dirname(os.path.realpath(__file__))
 for i in range(len(verifierlist)):
     cardname = verifierlist[i].role + "@certificate-network"

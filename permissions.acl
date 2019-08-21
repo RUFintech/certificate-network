@@ -1,6 +1,6 @@
 
 /**
- * Access Control List for the auction network.
+ * Access Control List for the certificate network.
  */
 
 rule Member {
@@ -11,27 +11,29 @@ rule Member {
     action: ALLOW
 }
 
-rule CreatorCanCreate {
+rule CreatorCanCreateVerifier {
     description: "Allow the creators create access on verifiers"
-    participant: "org.university.certification.Creator"
+    participant(c): "org.university.certification.Creator"
     operation: CREATE, READ, UPDATE
-    resource: "org.university.certification.Verifier"
+    resource(v): "org.university.certification.Verifier"
+    condition: (c.School == v.School)
+    action: ALLOW
+}
+
+rule CreatorCanCreateObserver {
+    description: "Allow the creators create access on Observer"
+    participant(c): "org.university.certification.Creator"
+    operation: CREATE, READ, UPDATE
+    resource(o): "org.university.certification.Observer"
+    condition: (c.School == o.School)
     action: ALLOW
 }
 
 rule CreatorCanCreateCreateCertificateTX {
   description: "Allow creators to create createCertificate TX"
   participant: "org.university.certification.Creator"
-  operation: CREATE, READ, UPDATE
-  resource: "org.university.certification.createCertificate"
-  action: ALLOW
-}
-
-rule CreatorCanCreateCreateCertificate {
-  description: "Allow creators to create createCertificate TX"
-  participant: "org.university.certification.Creator"
   operation: CREATE, READ
-  resource: "org.university.certification.Certificate"
+  resource: "org.university.certification.createCertificate"
   action: ALLOW
 }
 

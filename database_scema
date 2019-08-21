@@ -3,7 +3,7 @@ CREATE TABLE certificate (
   id SERIAL NOT NULL PRIMARY KEY,
   pdfhash VARCHAR(256) NOT NULL UNIQUE,
   pdf TEXT NOT NULL,
-  pdfwithqrcode TEXT NOT NULL,
+  pdfwithqrcode TEXT NULL,
   studentid INTEGER,
   FOREIGN KEY (studentid) References Students(studentid)
 );

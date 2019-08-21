@@ -7,9 +7,11 @@ namespace org.university.certification
 asset Certificate identified by certificateHash {
   o String certificateHash
   o String studentInformationHash optional
+  //this may be a json string or a hash of the json string
+  //using a hash would preserve student privacy
   o String certificateJsonHash optional
   --> Verifier verifier
-  o String studentID
+  o String studentID optional
   o Verification verified default="NOT_VERIFIED"
 }
 
@@ -47,11 +49,11 @@ transaction rejectCertificate {
   --> Certificate certificate
   o String role
 }
-  
+
 transaction createCertificate {
   --> Creator creator
   o String certificateHash
   o String studentInformationHash optional
   o String certificateJsonHash optional
-  o String studentID
+  o String studentID optional
 }
