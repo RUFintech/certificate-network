@@ -3,7 +3,6 @@ Name=$1
 Role=$2
 Number=$3
 NextVerifier=$4
-tom="asdfasdf"
 echo $Name
 echo $Role
 echo $Number

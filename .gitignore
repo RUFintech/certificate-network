@@ -286,3 +286,5 @@ npm-debug.log
 *.bna
 *.pdf
 *tempCodeRunnerFile*
+.nosync
+/cards/*

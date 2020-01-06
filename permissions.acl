@@ -37,6 +37,15 @@ rule CreatorCanCreateCreateCertificateTX {
   action: ALLOW
 }
 
+rule CreatorCanCreateCertificate {
+  description: "Allow creators to create Certificate asset"
+  participant: "org.university.certification.Creator"
+  operation: CREATE, READ
+  resource: "org.university.certification.Certificate"
+  action: ALLOW
+}
+
+
 rule OnlyVerifiersCanVerify {
     description: "Only allow correct verifiers to call acceptCertification transaction"
     participant(m): "org.university.certification.Verifier"
