@@ -21,7 +21,7 @@ for i in range(verifernumber):
     verifierinfo = verifierInfo(verifiername, verifierrole, verifierauthidentity)
     verifierlist.append(verifierinfo)
 creatorauth = input("Github username(not email) of Creator? ")
-print("Creating 1 Creator, 1 PDFStore, 1 Observer and {} Verifier/s".format(verifernumber))
+print("Creating 1 Creator, 1 Observer and {} Verifier/s".format(verifernumber))
 print("Verifier information: ")
 for i in range(len(verifierlist)):
     print("Verifier {}".format(i), verifierlist[i])
@@ -31,42 +31,21 @@ confirm = input()
 if(confirm == 'Y' or confirm == 'y'):
     shellscript = subprocess.Popen(["./standard_setup.sh"], stdin=subprocess.PIPE)
     shellscript.wait()
-    if(len(verifierlist) == 0):
-        firstverifier = """"firstVerifier": "resource:org.university.certification.Verifier#0","""
-    else:
-        firstverifier = """"firstVerifier": "resource:org.university.certification.Verifier#3","""
-    shellstring = """composer participant add -c admin@certificate-network -d '
-                {{
-                    "$class": "org.university.certification.Creator",
-                    "School": "Reykjavik University",
-                    {verifier}
-                    "memberId": "1"
-                }}'
-
-                composer card delete --card PDFCreator@certificate-network
-                composer identity issue -c admin@certificate-network -f ./cards/PDFCreator@certificate-network.card -u PDFCreator -a "resource:org.university.certification.Creator#1"
-                """.format(verifier = firstverifier)
-    shellscript1 = subprocess.Popen(shellstring, shell=True, stdout=subprocess.PIPE)
-    shellscript1.wait()
     for i in range(len(verifierlist)):
-        thenextverifier = str(0)
-        if(i != len(verifierlist) - 1):
-            thenextverifier = str(i + 4)
         shellstring = """ composer participant add -c admin@certificate-network -d '
                     {{
                     "$class": "org.university.certification.Verifier",
                     "School": "Reykjavik University",
                     "Role": "{role}",
-                    "nextVerifier": "resource:org.university.certification.Verifier#{nextverifier}",
                     "memberId": "{verifier}"
-                    }}'""".format(role = verifierlist[i].role, nextverifier = thenextverifier, verifier = str(i + 3))
+                    }}'""".format(role = verifierlist[i].role, verifier = str(i + 2))
         print(shellstring)
         shellscript1 = subprocess.Popen(shellstring, shell=True, stdout=subprocess.PIPE)
         shellscript1.wait()
         shellstring = "composer card delete --card {role}@certificate-network".format(role = verifierlist[i].role)
         shellscript2 = subprocess.Popen(shellstring, shell=True, stdout=subprocess.PIPE)
         shellscript2.wait()
-        shellstring = """composer identity issue -c admin@certificate-network -f ./cards/{role}@certificate-network.card -u {role} -a "resource:org.university.certification.Verifier#{verifier}" """.format(role = verifierlist[i].role, verifier = str(i + 3))
+        shellstring = """composer identity issue -c admin@certificate-network -f ./cards/{role}@certificate-network.card -u {role} -a "resource:org.university.certification.Verifier#{verifier}" """.format(role = verifierlist[i].role, verifier = str(i + 2))
         shellscript3 = subprocess.Popen(shellstring, shell=True, stdout=subprocess.PIPE)
         shellscript3.wait()
 

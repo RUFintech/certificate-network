@@ -10,7 +10,7 @@ asset Certificate identified by certificateHash {
   //this may be a json string or a hash of the json string
   //using a hash would preserve student privacy
   o String certificateJsonHash optional
-  --> Verifier verifier
+  --> Verifier[] verifiers optional
   o String studentID optional
   o Verification verified default="NOT_VERIFIED"
 }
@@ -28,12 +28,10 @@ abstract participant Member identified by memberId {
 participant Verifier extends Member {
   o String School
   o String Role
-  --> Verifier nextVerifier optional
 }
 
 participant Creator extends Member {
   o String School
-  --> Verifier firstVerifier
 }
 
 participant Observer extends Member {
@@ -42,16 +40,19 @@ participant Observer extends Member {
 
 transaction acceptCertificate {
   --> Certificate certificate
+  --> Verifier verifier
   o String role
 }
 
 transaction rejectCertificate {
   --> Certificate certificate
+  --> Verifier verifier
   o String role
 }
 
 transaction createCertificate {
   --> Creator creator
+  --> Verifier[] verifiers optional
   o String certificateHash
   o String studentInformationHash optional
   o String certificateJsonHash optional

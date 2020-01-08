@@ -17,6 +17,13 @@ query selectAllVerifiers {
     SELECT org.university.certification.Verifier
 }
 
+query selectVerifiersBySchool {
+  description: "Selects all verifiers of a given school"
+  statement:
+    SELECT org.university.certification.Verifier
+          WHERE (School == _$school)
+}
+
 query selectVerifier{
   description: "Selects all verifiers"
   statement:
@@ -55,5 +62,5 @@ query selectParticipantsCertificate{
   description: "Select Certificates that belong to participant"
   statement:
     SELECT org.university.certification.Certificate
-      WHERE (verifier == _$verifier)
+      WHERE (verifiers CONTAINS _$verifier)
 }

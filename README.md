@@ -61,7 +61,7 @@ The Unauthenticated API uses no authentication. The API is set up using an obser
 
 ### Upgrade network
 If you want to change the business network definitions (i.e., .acl, .cto, .qry, or lib/logic.js file/s) then you must upgrade the network. 
-Before you upgrade the network you must upgrade the version number in package.json, setup_test.sh, standard_setup.sh, and upgrade_network.sh. 
+Before you upgrade the network you must upgrade the version number in package.json, standard_setup.sh, and upgrade_network.sh. 
 If package.json is like this:
 
   

@@ -52,7 +52,9 @@ rule OnlyVerifiersCanVerify {
     operation: READ, UPDATE
     resource(v): "org.university.certification.Certificate"
     transaction(tx): "org.university.certification.acceptCertificate"
-    condition: ((v.verifier.getIdentifier() == m.getIdentifier()) && (tx.role == m.Role))
+    condition: ((tx.role == m.Role) && (v.verifiers.some(function (verifier) {
+        return verifier.getIdentifier() === m.getIdentifier();  
+        } )))
     action: ALLOW
 }
 
@@ -62,7 +64,9 @@ rule OnlyVerifiersCanReject {
     operation: READ, UPDATE
     resource(v): "org.university.certification.Certificate"
     transaction(tx): "org.university.certification.rejectCertificate"
-    condition: ((v.verifier.getIdentifier() == m.getIdentifier()) && (tx.role == m.Role))
+    condition: ((tx.role == m.Role) && (v.verifiers.some(function (verifier) {
+        return verifier.getIdentifier() === m.getIdentifier();  
+        } )))
     action: ALLOW
 }
 
