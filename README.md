@@ -15,6 +15,8 @@ To install composer we need to switch node to version 8 and npm version 5.5.1
 	nvm use --delete-prefix v8.17.0
 	npm install -g npm@5.5.1
 
+Note! It is important to use node version 8 everytime you run a composer command. Switch to node version 8 with the command nvm use 8.
+
 Install composer and composer rest server:
 
     npm install -g composer-cli@0.20
@@ -27,6 +29,8 @@ If you get this *error* -".../.nvm/versions/node/v8.17.0/lib/node_modules/npm/bi
 
 # PREMCERTS process for certification
 Below is a simplified BPMN of  the certification process. When a student graduates the school creates a digital certificate of their diploma. A hash is taken of the certificate and uploaded to the blockchain. A set of verifier has to accept the certificate before it gains a status of verified. 
+
+
 ![Simplified version of the certification processs](https://i.imgur.com/7IV5Jvs.png)
 
 
@@ -44,7 +48,13 @@ Below is a simplified BPMN of  the certification process. When a student graduat
     cd certificate-network
     pip3 install -r requirements.txt
 	sudo python3 startcertchain.py
-	
+
+### Restarting network
+You can reset network by running startcertchain.py and deleting the certificate entries in psql:
+    psql -U certuser
+    \c certificates
+    DELETE FROM certificate;
+
 ### Setup REST API
 There are two types of API's: an authenticated and an unauthenticated API. 
 #### Authenticated API on port 3000
@@ -89,7 +99,8 @@ After you have updated the version number, you should run the upgrade_network.sh
 
  - [ ] Upgrade from Hyperledger Composer (deprecated)
  - [ ] Clean up directory. Remove unnecessary files. Group together files. 
- - [ ] Make verification dynamic instead of sequential. Verifier B doesn't have to wait for verifier A to verify before they can verify. 
+ - [x] Make verification dynamic instead of sequential. Verifier B doesn't have to wait for verifier A to verify before they can verify. 
+ - [ ] Make acceptCertificate take in multiple certificates at a time. 
 
 
 

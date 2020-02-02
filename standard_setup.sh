@@ -6,9 +6,9 @@
 
 ~/fabric-dev-servers/startFabric.sh
 
-composer network install -a certificate-network@0.1.41.bna -c PeerAdmin@hlfv1
+composer network install -a ./dist/certificate-network@0.1.42.bna -c PeerAdmin@hlfv1
 
-composer network start --networkName certificate-network --networkVersion 0.1.41 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1
+composer network start --networkName certificate-network --networkVersion 0.1.42 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1
 
 rm cards/admin@certificate-network.card
 composer card delete --card admin@certificate-network
