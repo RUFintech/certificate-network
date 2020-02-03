@@ -98,7 +98,7 @@ After you have updated the version number, you should run the upgrade_network.sh
 # TODO
 
  - [ ] Upgrade from Hyperledger Composer (deprecated)
- - [ ] Clean up directory. Remove unnecessary files. Group together files. 
+ - [x] Clean up directory. Remove unnecessary files. Group together files. 
  - [x] Make verification dynamic instead of sequential. Verifier B doesn't have to wait for verifier A to verify before they can verify. 
  - [ ] Make acceptCertificate take in multiple certificates at a time. 
 
