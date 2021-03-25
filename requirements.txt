@@ -11,7 +11,7 @@ pycparser==2.19
 pycrypto==2.6.1
 pymongo==3.8.0
 PyPDF2==1.26.0
-PyYAML==5.1.1
+PyYAML==5.4
 qrcode==6.1
 reportlab==3.5.21
 requests==2.22.0
